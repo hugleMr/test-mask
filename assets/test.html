@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Arc Between Two Circles with a Bounding Line</title>
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+                background-color: #f0f0f0;
+            }
+            canvas {
+                display: block;
+                margin: auto;
+                margin-top: 50px;
+                background-color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="800" height="600"></canvas>
+        <script>
+            // Setup canvas
+            const canvas = document.getElementById("myCanvas");
+            const ctx = canvas.getContext("2d");
+            const width = canvas.width;
+            const height = canvas.height;
+
+            // Define Circle 1
+            const circle1 = {
+                x: 150,
+                y: 150,
+                radius: 80,
+            };
+
+            // Define Circle 2
+            const circle2 = {
+                x: 300,
+                y: 150,
+                radius: 60,
+            };
+
+            // Define Circle 3
+            const circle3 = {
+                x: 450,
+                y: 150,
+                radius: 50,
+            };
+
+            // Function to calculate points on circles
+            function calculatePoints(theta) {
+                // Points on Circle 1
+                const x1_circle = circle1.x + circle1.radius * Math.cos(theta);
+                const y1_circle = circle1.y + circle1.radius * Math.sin(theta);
+
+                // Points on Circle 2
+                const x2_circle = circle2.x + circle2.radius * Math.cos(theta);
+                const y2_circle = circle2.y + circle2.radius * Math.sin(theta);
+
+                // Points on Circle 3
+                const x3_circle = circle3.x + circle3.radius * Math.cos(theta);
+                const y3_circle = circle3.y + circle3.radius * Math.sin(theta);
+
+                return {
+                    x1: x1_circle,
+                    y1: y1_circle,
+                    x2: x2_circle,
+                    y2: y2_circle,
+                    x3: x3_circle,
+                    y3: y3_circle,
+                };
+            }
+
+            // Function to draw the curve
+            function drawCurve() {
+                ctx.clearRect(0, 0, width, height);
+
+                ctx.beginPath();
+
+                // Draw points on circles and connect them
+                for (let theta = 0; theta <= Math.PI; theta += 0.01) {
+                    const points = calculatePoints(theta);
+
+                    if (theta === 0) {
+                        ctx.moveTo(points.x1, points.y1);
+                    } else {
+                        ctx.lineTo(points.x1, points.y1);
+                    }
+                    ctx.lineTo(points.x2, points.y2);
+                    ctx.lineTo(points.x3, points.y3);
+                }
+
+                ctx.strokeStyle = "blue";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            // Initial draw
+            drawCurve();
+        </script>
+    </body>
+</html>
